@@ -44,12 +44,13 @@
 		    //Search for the first "real" image
 		    if($img != "/p.gif" && $img != "/design/mercateo/me_logo4_transp.gif" && $img != "//mycliplister.com/static/playbtn.png"){
 			    
-				$fileName = "img/".$sku.".jpg";
+				$fileName = "img/".$_POST["prefix"].$sku.$_POST["suffix"].".jpg";
 				//Download the image
 				if(file_put_contents($fileName, fopen($img, 'r'))){
 					if (file_exists($fileName)) {
+						$fileNameWODir = basename($fileName); //Filename without directory
 						//Write success log to file
-						file_put_contents("success_log.csv", $sku."\r\n", FILE_APPEND | LOCK_EX);
+						file_put_contents("success_log.csv", $sku.";".$fileNameWODir."\r\n", FILE_APPEND | LOCK_EX);
 						
 						//Write log to gui
 						echo "Successfully downloaded " . $sku . "!<br>";  
