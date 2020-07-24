@@ -44,13 +44,20 @@
 		    //Search for the first "real" image
 		    if($img != "/p.gif" && $img != "/design/mercateo/me_logo4_transp.gif" && $img != "//mycliplister.com/static/playbtn.png"){
 			    
+				$fileName = "img/".$sku.".jpg";
 				//Download the image
-				if(file_put_contents("img/".$sku.".jpg", fopen($img, 'r'))){
-					//Write success log to file
-					file_put_contents("success_log.csv", $sku."\r\n", FILE_APPEND | LOCK_EX);
-				    
-					//Write log to gui
-					echo "Successfully downloaded " . $sku . "!<br>";  
+				if(file_put_contents($fileName, fopen($img, 'r'))){
+					if (file_exists($fileName)) {
+						//Write success log to file
+						file_put_contents("success_log.csv", $sku."\r\n", FILE_APPEND | LOCK_EX);
+						
+						//Write log to gui
+						echo "Successfully downloaded " . $sku . "!<br>";  
+					}
+					else{
+						echo "Error while downloading " . $sku . "!<br>";  
+					}
+					
 				}
 				else{
 					echo "Error while downloading " . $sku . "!<br>";  
