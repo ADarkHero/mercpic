@@ -16,6 +16,8 @@
 	
 	//Clear success log
 	file_put_contents("success_log.csv", "");
+	//Write headline to success log (yes, that makes sense.)
+	file_put_contents("success_log.csv", "ArtNr;Pic\r\n", FILE_APPEND | LOCK_EX);
 	
 	//Cycle throught the filelist
 	for($i = 0; $i < sizeof($csv_array); $i++){
@@ -48,10 +50,10 @@
 				//Download the image
 				if(file_put_contents($fileName, fopen($img, 'r'))){
 					if (file_exists($fileName)) {
-						$fileNameWODir = basename($fileName); //Filename without directory
+						//Filename without directory
+						$fileNameWODir = basename($fileName); 
 						//Write success log to file
 						file_put_contents("success_log.csv", $sku.";".$fileNameWODir."\r\n", FILE_APPEND | LOCK_EX);
-						
 						//Write log to gui
 						echo "Successfully downloaded " . $sku . "!<br>";  
 					}
